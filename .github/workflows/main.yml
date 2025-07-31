@@ -1,49 +1,65 @@
+# 修改後的版本，建議您直接複製使用
 name: Deploy Hexo to GitHub Pages
 
 on:
   push:
     branches:
-      - hexo # 或你使用的默认分支名称
+      - hexo # 監聽 hexo 原始碼分支的 push 事件
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # 針對這個 job 內所有的 run 指令設定預設工作目錄
+    defaults:
+      run:
+        working-directory: ./blog
+
     steps:
+      # 步驟一：Checkout 您的原始碼
+      # 更新到 v4，並指定 checkout 到 'blog' 子目錄
       - name: Checkout blog source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: blog
 
+      # 步驟二：設定 Node.js 環境
+      # 更新到 v4，並使用較新的 LTS 版本 (例如 20 或 22)
+      # 內建快取功能，取代舊的 actions/cache 步驟
       - name: Set up Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: "16" # 设置 Node.js 版本
+          node-version: "20"
+          cache: 'npm'
+          cache-dependency-path: blog/package-lock.json # 指定快取依據的檔案路徑
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
+      # 步驟三：安裝依賴
+      # 因為設定了 defaults，這裡不需再寫 working-directory
       - name: Install dependencies
         run: npm install
-        working-directory: ./blog
 
-      - name: Install Hexo CLI
-        run: npm install -g hexo-cli
-        working-directory: ./blog
-
+      # 步驟四：產生靜態頁面
+      # 使用 npx 直接執行專案內的 hexo 指令，不需全域安裝
       - name: Generate static pages
-        run: hexo generate
-        working-directory: ./blog
+        run: npx hexo generate
 
+      # 步驟五：部署到 GitHub Pages
+      # 更新到 v4
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
+          # PERSONAL_TOKEN 是部署到【外部儲存庫】時必要的密鑰
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          
+          # 指定要發布的資料夾
           publish_dir: ./blog/public
-          external_repository: baotuo88/baotuo88.github.io # 更改为你的 GitHub Pages 仓库, username 是你的用户名
-          publish_branch: main # GitHub Pages 分支
+          
+          # 指定外部儲存庫的名稱
+          external_repository: baotuo88/baotuo88.github.io
+          
+          # 指定要發布到哪個分支
+          publish_branch: main
+          
+          # 加上部署機器人的使用者資訊，讓 commit 紀錄更好看
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
