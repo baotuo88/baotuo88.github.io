@@ -1,65 +1,54 @@
-# 修改後的版本，建議您直接複製使用
-name: Deploy Hexo to GitHub Pages
+# 修正后的版本，为您量身定制
+name: Deploy Hexo to main branch
 
+# 触发条件：当 hexo 分支有新的 push 时触发
 on:
   push:
     branches:
-      - hexo # 監聽 hexo 原始碼分支的 push 事件
+      - hexo # 监听您的源文件分支
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    # 針對這個 job 內所有的 run 指令設定預設工作目錄
-    defaults:
-      run:
-        working-directory: ./blog
-
     steps:
-      # 步驟一：Checkout 您的原始碼
-      # 更新到 v4，並指定 checkout 到 'blog' 子目錄
-      - name: Checkout blog source
+      # 步骤一：检出您的 hexo 分支代码
+      - name: Checkout source branch
         uses: actions/checkout@v4
         with:
-          path: blog
+          ref: hexo # 明确指定检出 hexo 分支
 
-      # 步驟二：設定 Node.js 環境
-      # 更新到 v4，並使用較新的 LTS 版本 (例如 20 或 22)
-      # 內建快取功能，取代舊的 actions/cache 步驟
+      # 步骤二：设定 Node.js 环境 (使用 v20 版本并开启 npm 缓存)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: 'npm'
-          cache-dependency-path: blog/package-lock.json # 指定快取依據的檔案路徑
 
-      # 步驟三：安裝依賴
-      # 因為設定了 defaults，這裡不需再寫 working-directory
+      # 步骤三：安装项目依赖
       - name: Install dependencies
         run: npm install
 
-      # 步驟四：產生靜態頁面
-      # 使用 npx 直接執行專案內的 hexo 指令，不需全域安裝
+      # 步骤四：生成静态网站文件
       - name: Generate static pages
-        run: npx hexo generate
+        run: npx hexo generate # npx 直接运行项目内的 hexo 指令
 
-      # 步驟五：部署到 GitHub Pages
-      # 更新到 v4
-      - name: Deploy to GitHub Pages
+      # 步骤五：部署到 main 分支
+      - name: Deploy to main branch
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # PERSONAL_TOKEN 是部署到【外部儲存庫】時必要的密鑰
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          # 使用 GitHub 自动提供的 Token，足以对同仓库的分支进行操作
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           
-          # 指定要發布的資料夾
-          publish_dir: ./blog/public
-          
-          # 指定外部儲存庫的名稱
-          external_repository: baotuo88/baotuo88.github.io
-          
-          # 指定要發布到哪個分支
+          # 指定要发布的目标分支
           publish_branch: main
           
-          # 加上部署機器人的使用者資訊，讓 commit 紀錄更好看
+          # 指定要发布的文件夹 (Hexo 默认生成在 public)
+          # 注意：这里没有 ./blog/ 前缀
+          publish_dir: ./public
+          
+          # 这是一个推荐选项，它会创建一个干净的分支，避免历史记录混乱
+          force_orphan: true
+          
+          # 部署机器人的用户信息
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
