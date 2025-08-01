@@ -1279,7 +1279,7 @@ CDN:
     # instantsearch:
     # docsearch_js:
     # docsearch_css:
-    # pjax:
+    pjax: https://cdn.cbd.int/pjax@0.2.8/pjax.min.js
     # blueimp_md5:
     # valine:
     # twikoo:
@@ -1323,7 +1323,7 @@ CDN:
     # pace_default_css:
     # countup_js:
     # gsap_js:
-    busuanzi: true
+    busuanzi: https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js
     # rightmenu:
     # waterfall:
     # ali_iconfont_css:
