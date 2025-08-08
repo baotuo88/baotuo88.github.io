@@ -373,15 +373,18 @@ artalk:
 # giscus
 # https://giscus.app/
 giscus:
-  giscus:
-  repo: "baotuo88/blog-comments"
-  repo_id: "R_kgDOPahQWw"
-  category: "Announcements"              # ← 改成 Announcements
-  category_id: "DIC_kwDOPahQW84Ct798"    # ← Announcements 对应的 category_id
-  mapping: "pathname"
-  input_position: "bottom"
-  lang: "zh-CN"
-  theme: preferred_color_scheme
+  repo: "baotuo88/blog-comments"           # GitHub repository name
+  repo_id: "R_kgDOPahQWw"                  # GitHub repository id
+  category_id: "DIC_kwDOPahQW84Ct798"      # GitHub repository category id
+  theme:
+    light: light
+    dark: dark
+  option:
+    data-lang: zh-CN
+    data-mapping: pathname
+    data-category: Announcements
+    data-input-position: bottom
+
 
 # Chat Services
 # --------------------------------------
