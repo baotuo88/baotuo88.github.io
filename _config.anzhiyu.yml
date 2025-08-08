@@ -373,10 +373,11 @@ artalk:
 # giscus
 # https://giscus.app/
 giscus:
+  giscus:
   repo: "baotuo88/blog-comments"
   repo_id: "R_kgDOPahQWw"
-  category: "General"
-  category_id: "DIC_kwDOPahQW84Ct799"
+  category: "Announcements"              # ← 改成 Announcements
+  category_id: "DIC_kwDOPahQW84Ct798"    # ← Announcements 对应的 category_id
   mapping: "pathname"
   input_position: "bottom"
   lang: "zh-CN"
