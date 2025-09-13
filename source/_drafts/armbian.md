@@ -4,7 +4,7 @@ categories: []
 date: '2025-09-13T16:40:10.551017+08:00'
 tags: []
 title: title
-updated: '2025-09-13T16:40:43.082+08:00'
+updated: '2025-09-13T16:57:11.667+08:00'
 ---
 在 Armbian 无界面系统上安装和配置 v2rayA 确实是个不错的选择，它可以通过 Web 界面让你更方便地管理代理连接。下面我会为你提供详细的步骤。
 
@@ -17,7 +17,6 @@ updated: '2025-09-13T16:40:43.082+08:00'
 | **Docker 安装**    | 任何支持 Docker 的系统（包括 Armbian）  | 环境隔离，不受系统依赖影响       | 需要先安装 Docker，透明代理配置稍复杂 |
 | **二进制包安装**   | 各种 Linux 发行版                       | 灵活，无需依赖包管理器           |                                       |
 
-
 ### 📦 一、安装前的准备工作
 
 在安装 v2rayA 之前，你需要确保系统上已经安装了 **V2Ray** 或 **Xray** 内核，因为 v2rayA 是一个前端管理界面，需要依赖这些内核来工作。
@@ -27,7 +26,6 @@ updated: '2025-09-13T16:40:43.082+08:00'
    ```
    sudo apt update && sudo apt upgrade -y
    ```
-
 
 2.安装 V2Ray/Xray 核心：
 
@@ -42,7 +40,6 @@ sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-re
 ```
 sudo bash -c "$(curl -L https://cdn.jsdelivr.net/gh/mzz2017/v2rayA@master/install/go.sh)"
 ```
-
 
 * 安装完成后，可以通过以下命令检查是否安装成功：
 
@@ -74,7 +71,6 @@ sudo apt update
 sudo apt install v2raya
 ```
 
-
 #### 方法二：通过 Docker 安装
 
 如果你的系统已经安装了 Docker，这是一个非常干净且隔离的选择。
@@ -96,7 +92,6 @@ sudo docker run -d \
 
 * `--privileged` 和 `-v /lib/modules:/lib/modules`: 这些参数对于启用**全局透明代理**功能通常是必需的。
 * `-v /etc/v2raya:/etc/v2raya`: 将容器内的配置目录映射到主机，保证配置持久化。
-
 
 ### 🚀 三、启动和设置 v2rayA
 
@@ -149,7 +144,6 @@ export http_proxy="http://127.0.0.1:20171"
 export https_proxy="http://127.0.0.1:20171"
 ```
 
-
 `20171` 是 v2rayA 默认开放的 HTTP 代理端口。
 
 要使环境变量永久生效，可以将上述命令添加到 `~/.bashrc` 或 `/etc/environment` 文件中。
@@ -171,3 +165,5 @@ export https_proxy="http://127.0.0.1:20171"
   * Docker 方式：需要拉取新镜像并重新创建容器。
 
 希望这份详细的指南能帮助你在 Armbian 上顺利安装和使用 v2rayA！
+
+总结一下流程：**刷机 -> 启动 Armbian -> 安装 Xray/V2Ray 内核 -> 安装 v2rayA -> 通过浏览器访问 `IP:2017` 进行配置**。
