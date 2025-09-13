@@ -1,10 +1,10 @@
 ---
-abbrlink: ''
+abbrlink: armbian
 categories: []
 date: '2025-09-13T16:40:10.551017+08:00'
 tags: []
-title: title
-updated: '2025-09-13T16:57:11.667+08:00'
+title: 机顶盒输入armbian系统
+updated: '2025-09-13T20:57:42.874+08:00'
 ---
 在 Armbian 无界面系统上安装和配置 v2rayA 确实是个不错的选择，它可以通过 Web 界面让你更方便地管理代理连接。下面我会为你提供详细的步骤。
 
