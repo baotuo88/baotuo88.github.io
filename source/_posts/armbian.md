@@ -36,7 +36,6 @@ sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-re
 ```
 
 * 或者安装 V2Ray
-
 ```
 sudo bash -c "$(curl -L https://cdn.jsdelivr.net/gh/mzz2017/v2rayA@master/install/go.sh)"
 ```
